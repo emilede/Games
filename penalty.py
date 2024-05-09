@@ -71,7 +71,12 @@ def your_shot(team):
     global t1_score
     global t1_shot
 
-    spot = input("Pick your spot(Top Left, Bottom Left, Panenka!, Top Right, Bottom Right): ")
+    spot = input("Pick your spot(Top Left, Bottom Left, Panenka, Top Right, Bottom Right): ")
+    if('left' not in spot and 'right' not in spot and 'panenka' not in spot):
+        print("He has no technique. Its a miss!")
+        t1_shot += 1
+        return 
+
     print(team + " is shooting...")
     result = spot
     
@@ -98,8 +103,41 @@ def your_shot(team):
     return
 
 
-def game_over():
-    return
+def game_over(round, team1, team2):
+
+    g_o = False
+
+    if round == 4 and (t1_score > t2_score + 2):
+        print(team1 + " wins the Champions league!")
+        print("With a score of: " + str(t1_score) + " to " + str(t2_score))
+        g_o = True
+
+    if round == 4 and (t1_score + 2 < t2_score):
+        print(team2 + " wins the Champions league!")
+        print("With a score of: " + str(t1_score) + " to " + str(t2_score))
+        g_o = True
+
+    if round == 5 and (t1_score + 1 < t2_score):
+        print(team2 + " wins the Champions league!")
+        print("With a score of: " + str(t1_score) + " to " + str(t2_score))
+        g_o = True
+
+    if round == 5 and (t1_score + 1 > t2_score):
+        print(team1 + " wins the Champions league!")
+        print("With a score of: " + str(t1_score) + " to " + str(t2_score))
+        g_o = True
+
+    if round > 5 and (t1_score > t2_score):
+        print(team1 + " wins the Champions league!")
+        print("With a score of: " + str(t1_score) + " to " + str(t2_score))
+        g_o = True
+
+    if round > 5 and (t1_score < t2_score):
+        print(team2 + " wins the Champions league!")
+        print("With a score of: " + str(t1_score) + " to " + str(t2_score))
+        g_o = True
+
+    return g_o
 
 def scores(t1, t2):
     
@@ -149,10 +187,15 @@ def main():
     round = 1
 
     print(team1 + " shoots first!")
-    while(game_over() != True):
+
+    while(True):
         print("Round: " + str(round))
         your_shot(team1)
+        if game_over(round, team1, team2) == True:
+            break
         opp_shot(team2)
+        if game_over(round, team1, team2) == True:
+            break
         scores(team1, team2)
         round += 1
 
@@ -168,8 +211,3 @@ def main():
     return
 
 main()
-
-    
-    
-
-
