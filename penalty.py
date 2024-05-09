@@ -27,6 +27,8 @@ def toss(h_t):
 def score(x):
     if(x == 1):
         print("He scores!!!")
+    else:
+        print("Straight to the keeper")
     return
 
 def opp_shot(team):
@@ -46,7 +48,7 @@ def opp_shot(team):
             t2_score += 1
 
     else:
-        print("My word its a ..." + result)
+        print("Its a ..." + result)
 
         if(result == "Panenka"):
             score(random.randint(0, 1), t2_score)
@@ -72,15 +74,20 @@ def your_shot(team):
     global t1_shot
 
     spot = input("Pick your spot(Top Left, Bottom Left, Panenka, Top Right, Bottom Right): ")
-    if('left' not in spot and 'right' not in spot and 'panenka' not in spot):
+    if('left' not in spot.lower() and 'right' not in spot.lower() and 'panenka' not in spot.lower()):
         print("He has no technique. Its a miss!")
         t1_shot += 1
         return 
 
     print(team + " is shooting...")
     result = spot
+
+    if(random.randint(0,5) == 1):
+        print("He's slipped!!")
+        t1_shot += 1
+        return
     
-    if(len(result) >= 7):
+    if('left' in spot.lower() or 'right' in spot.lower()):
         print("They shoot..." + result)
         side = keeper_side()
         if(side in result):
@@ -92,13 +99,9 @@ def your_shot(team):
 
     
     else:
-        print("My word its a ..." + result)
-
-        if(result == "Panenka"):
-            score(random.randint(0, 1), t1_score)
-        
-        if(result == "SLIP!"):
-            t1_shot += 1
+        print("Its a ... " + result)
+        if(result.lower() == "panenka"):
+            score(random.randint(0, 1))
 
     return
 
@@ -106,6 +109,11 @@ def your_shot(team):
 def game_over(round, team1, team2):
 
     g_o = False
+
+    if round == 3 and (t1_score + 2 < t2_score):
+        print(team2 + " wins the Champions league!")
+        print("With a score of: " + str(t1_score) + " to " + str(t2_score))
+        g_o = True
 
     if round == 4 and (t1_score > t2_score + 2):
         print(team1 + " wins the Champions league!")
@@ -122,18 +130,18 @@ def game_over(round, team1, team2):
         print("With a score of: " + str(t1_score) + " to " + str(t2_score))
         g_o = True
 
-    if round == 5 and (t1_score + 1 > t2_score):
-        print(team1 + " wins the Champions league!")
-        print("With a score of: " + str(t1_score) + " to " + str(t2_score))
-        g_o = True
-
-    if round > 5 and (t1_score > t2_score):
+    if round == 5 and (t1_score > t2_score + 1):
         print(team1 + " wins the Champions league!")
         print("With a score of: " + str(t1_score) + " to " + str(t2_score))
         g_o = True
 
     if round > 5 and (t1_score < t2_score):
         print(team2 + " wins the Champions league!")
+        print("With a score of: " + str(t1_score) + " to " + str(t2_score))
+        g_o = True
+
+    if round > 5 and (t1_score > t2_score):
+        print(team1 + " wins the Champions league!")
         print("With a score of: " + str(t1_score) + " to " + str(t2_score))
         g_o = True
 
@@ -211,3 +219,8 @@ def main():
     return
 
 main()
+
+    
+    
+
+
