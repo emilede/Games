@@ -51,7 +51,8 @@ def opp_shot(team):
         print("Its a ..." + result)
 
         if(result == "Panenka"):
-            score(random.randint(0, 1), t2_score)
+            if(score(random.randint(0, 1)) == True):
+                t2_score += 1
         
         if(result == "SLIP!"):
             t2_shot += 1
@@ -101,7 +102,8 @@ def your_shot(team):
     else:
         print("Its a ... " + result)
         if(result.lower() == "panenka"):
-            score(random.randint(0, 1))
+            if(score(random.randint(0, 1)) == True):
+                t1_score += 1
 
     return
 
@@ -125,7 +127,7 @@ def game_over(round, team1, team2):
         print("With a score of: " + str(t1_score) + " to " + str(t2_score))
         g_o = True
 
-    if round == 5 and (t1_score + 1 < t2_score):
+    if round == 5 and (t1_score < t2_score):
         print(team2 + " wins the Champions league!")
         print("With a score of: " + str(t1_score) + " to " + str(t2_score))
         g_o = True
@@ -198,6 +200,8 @@ def main():
 
     while(True):
         print("Round: " + str(round))
+        if game_over(round, team1, team2) == True:
+            break
         your_shot(team1)
         if game_over(round, team1, team2) == True:
             break
